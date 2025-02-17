@@ -5,3 +5,7 @@ C:\Users\Daniel\source\repos\XMLConverter\XMLConverter\obj\Debug\IntegracaoReque
 C:\Users\Daniel\source\repos\XMLConverter\XMLConverter\obj\Debug\IntegracaoRequester.csproj.CoreCompileInputs.cache
 C:\Users\Daniel\source\repos\XMLConverter\XMLConverter\obj\Debug\XMLConverter.exe
 C:\Users\Daniel\source\repos\XMLConverter\XMLConverter\obj\Debug\XMLConverter.pdb
+C:\Users\Daniel\source\repos\ZanthusXMLConverter\ZanthusXMLConverter\obj\Debug\IntegracaoRequester.csproj.AssemblyReference.cache
+C:\Users\Daniel\source\repos\ZanthusXMLConverter\ZanthusXMLConverter\obj\Debug\IntegracaoRequester.csproj.CoreCompileInputs.cache
+C:\Users\Daniel\source\repos\ZanthusXMLConverter\ZanthusXMLConverter\obj\Debug\XMLConverter.exe
+C:\Users\Daniel\source\repos\ZanthusXMLConverter\ZanthusXMLConverter\obj\Debug\XMLConverter.pdb

@@ -1,7 +1,0 @@
-C:\Users\Daniel\source\repos\XMLConverter\XMLConverter\bin\Release\XMLConverter.exe.config
-C:\Users\Daniel\source\repos\XMLConverter\XMLConverter\bin\Release\XMLConverter.exe
-C:\Users\Daniel\source\repos\XMLConverter\XMLConverter\bin\Release\XMLConverter.pdb
-C:\Users\Daniel\source\repos\XMLConverter\XMLConverter\obj\Release\XMLConverter.csproj.AssemblyReference.cache
-C:\Users\Daniel\source\repos\XMLConverter\XMLConverter\obj\Release\XMLConverter.csproj.CoreCompileInputs.cache
-C:\Users\Daniel\source\repos\XMLConverter\XMLConverter\obj\Release\XMLConverter.exe
-C:\Users\Daniel\source\repos\XMLConverter\XMLConverter\obj\Release\XMLConverter.pdb

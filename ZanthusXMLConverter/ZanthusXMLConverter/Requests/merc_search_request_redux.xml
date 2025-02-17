@@ -1,0 +1,41 @@
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:managerIntegracao">
+	<soapenv:Header/>
+	<soapenv:Body>
+		<urn:metodoIntegracaoGenerico soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+			<str_xml xsi:type="xsd:string">
+				<![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+					<ZMI>
+						<DATABASES>
+							<DATABASE>
+								<COMMANDS>
+									<SELECT>
+										<MERCADORIAS>
+											<MERCADORIA>
+												<FIELD NAME='COD_LOJA'/>
+												<FIELD NAME='COD_MERCADORIA'/>
+												<FIELD NAME='DESCRICAO'/>
+												<FIELD NAME='COD_SIT_TRIB_PIS'/>
+												<FIELD NAME='ALIQUOTA_PIS'/>
+												<FIELD NAME='PERC_SUBST_PIS'/>
+												<FIELD NAME='PERC_REDUZ_B_CALCULO_PIS'/>
+												<FIELD NAME='COD_SIT_TRIB_COFINS'/>
+												<FIELD NAME='ALIQUOTA_COFINS'/>
+												<FIELD NAME='PERC_SUBST_COFINS'/>
+												<FIELD NAME='PERC_REDUZ_B_CALCULO_COFINS'/>
+												<FIELD NAME='CUSTO_CONTABIL'/>
+												<FIELD NAME='FLGINATIVO'/>
+												<FILTER FIELD='FLGINATIVO' TYPE='EQUAL'>
+													<VALUE>1</VALUE>
+												</FILTER>
+											</MERCADORIA>
+										</MERCADORIAS>
+									</SELECT>
+								</COMMANDS>
+							</DATABASE>
+						</DATABASES>
+					</ZMI>
+				]]>
+			</str_xml>
+		</urn:metodoIntegracaoGenerico>
+	</soapenv:Body>
+</soapenv:Envelope>

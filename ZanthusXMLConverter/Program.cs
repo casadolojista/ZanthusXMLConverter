@@ -19,7 +19,7 @@ namespace IntegracaoRequester {
 					case ConsoleKey.Y:
 						Console.WriteLine("\n\n----------------------------------------");
 						Console.WriteLine("Enviando requisição...\n\n");
-						RequestMerchandise.SearchForMerchandises(
+						RequestMerchandise.SearchMerchandises(
 							(appSettings.Get("requestEndpoint") + appSettings.Get("requestMethod")),
 							(appSettings.Get("requestXMLFilePath") + appSettings.Get("requestXMLFileName"))
 						);

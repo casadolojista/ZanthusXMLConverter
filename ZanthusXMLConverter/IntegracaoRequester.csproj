@@ -49,7 +49,6 @@
     <Compile Include="Merchandise.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Requests\merc_search_request_redux.xml" />
     <Content Include="Requests\merc_search_request.xml" />
   </ItemGroup>
   <ItemGroup>

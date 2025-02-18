@@ -7,7 +7,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Reflection;
 
-namespace IntegracaoRequester {
+namespace ZanthusXMLConverter {
 	class FileWriter {
 		#region XDOCUMENT
 		// Write a XML file from a XDocument content

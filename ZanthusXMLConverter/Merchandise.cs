@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IntegracaoRequester {
+namespace ZanthusXMLConverter {
 	public class Merchandise {
 		#region PRODUCT
 		public int StoreID { get; set; }

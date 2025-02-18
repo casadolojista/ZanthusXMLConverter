@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace IntegracaoRequester {
+namespace ZanthusXMLConverter {
 	class Program {
 		static void Main() {
 			var appSettings = ConfigurationManager.AppSettings;

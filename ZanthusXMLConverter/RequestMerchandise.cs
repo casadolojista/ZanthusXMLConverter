@@ -9,7 +9,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Reflection;
 
-namespace IntegracaoRequester {
+namespace ZanthusXMLConverter {
 	class RequestMerchandise {
 		// Send a POST request to search for merchandises
 		public static async void SearchMerchandises(string requestEndpoint, string requestXMLContentPath) {

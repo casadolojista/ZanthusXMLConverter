@@ -18,7 +18,7 @@ namespace ZanthusXMLConverter {
 						break;
 					case ConsoleKey.Y:
 						Console.WriteLine("\n\n----------------------------------------");
-						Console.WriteLine("Enviando requisição...\n\n");
+						Console.WriteLine("Enviando requisição...");
 						RequestMerchandise.SearchMerchandises(
 							(appSettings.Get("requestEndpoint") + appSettings.Get("requestMethod")),
 							(appSettings.Get("requestXMLFilePath") + appSettings.Get("requestXMLFileName"))

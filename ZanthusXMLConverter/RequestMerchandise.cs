@@ -99,18 +99,19 @@ namespace ZanthusXMLConverter {
 					string responseFilePath = appSettings.Get("responseXMLFilePath");
 					FileWriter.WriteFromList(merchandises, searchedProperties, fileBodyName, responseFileName, responseFilePath);
 
-					Console.WriteLine("\n\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+					Console.WriteLine("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 					Console.WriteLine("Retorno da requisição concluída");
 					Console.WriteLine("\nRESULTADOS");
 					Console.WriteLine("Qtd. de Lojas: " + merchandises.GroupBy(x => x.StoreID).Count());
 					Console.WriteLine("Qtd. de Mercadorias: " + merchandises.GroupBy(x => x.MercID).Count());
 				} catch (Exception ex) {
-					Console.WriteLine("\n\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-					Console.WriteLine("ERRO NA REQUISIÇÃO!");
-					Console.WriteLine("\n" + ex.ToString());
+					Console.WriteLine("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+					Console.WriteLine("Erro na requisição");
+					Console.WriteLine("\nException:");
+					Console.WriteLine(ex.ToString());
 				}
 
-				Console.WriteLine("\n\n########################################");
+				Console.WriteLine("\n########################################");
 				Console.WriteLine(" - Pressione [Y] para enviar uma nova requisição");
 				Console.WriteLine(" - Pressione [Esc] para sair");
 			}

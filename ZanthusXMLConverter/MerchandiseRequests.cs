@@ -10,12 +10,14 @@ using System.Xml.Linq;
 using System.Reflection;
 
 namespace ZanthusXMLConverter {
-	class RequestMerchandise {
+	class MerchandiseRequests {
 		// Send a POST request to search for merchandises
 		public static async void SearchMerchandises(string requestEndpoint, string requestXMLContentPath) {
 			var appSettings = ConfigurationManager.AppSettings;
+			
+			// List with objects (and selected attributes) to be used as content in response's XML file
 			List<Merchandise> merchandises = new List<Merchandise>();
-			PropertyInfo[] merchandiseProperties = {
+			PropertyInfo[] merchandiseAttributes = {
 				typeof(Merchandise).GetProperty("StoreID"),
 				typeof(Merchandise).GetProperty("MercID"),
 				typeof(Merchandise).GetProperty("Description"),
@@ -30,14 +32,15 @@ namespace ZanthusXMLConverter {
 				typeof(Merchandise).GetProperty("AccountingCost"),
 				typeof(Merchandise).GetProperty("InactiveFlag")
 			};
-			List<PropertyInfo> searchedProperties = new List<PropertyInfo>(merchandiseProperties);
+			List<PropertyInfo> searchedAttributes = new List<PropertyInfo>(merchandiseAttributes);
 
+			// Set a HTTP request
 			using (var requestClient = new HttpClient()) {
-				// Load the XML's file from the current path and set it in a XDocument to be used in request content
+				// Load the XML file from the current path and set it in a XDocument to be used as request's content
 				XDocument requestXDoc = XDocument.Load(requestXMLContentPath);
 				StringContent requestContent = new StringContent(requestXDoc.ToString(), null, "text/xml");
 
-				// Send an asynchronous request and await for response (only return a response if was successful)
+				// Send an asynchronous request and await for response (only return a valid response if was successful)
 				try {
 					HttpResponseMessage responseResult = await requestClient.PostAsync(requestEndpoint, requestContent);
 					responseResult.EnsureSuccessStatusCode();
@@ -47,12 +50,12 @@ namespace ZanthusXMLConverter {
 					string responseDecoded = Regex.Replace(responseString, @"\t|\n|\r", "");
 					XDocument responseXDoc = XDocument.Parse(@responseDecoded);
 
-					// Get response XDocument's body content and set in another XDocument
+					// Get response's body content and set it in another new XDocument
 					string responseBody = responseXDoc.Descendants("return").First().Value;
 					XDocument responseXDocBody = XDocument.Parse(responseBody);
 
-					// Parse body content's XDocument as objects
-					foreach (XElement query in responseXDocBody.Element("ZMI").Descendants("QUERY")) {
+					// Parse new XDocument's body content as objects
+					foreach (XElement query in responseXDocBody.Element(appSettings.Get("responseBodyTag")).Descendants("QUERY")) {
 						foreach (XElement entry in query.Descendants("CONTENT")) {
 							if (entry.HasElements) {
 								int storeID = int.Parse(entry.Element("COD_LOJA").Value);
@@ -90,14 +93,14 @@ namespace ZanthusXMLConverter {
 						}
 					}
 
-					// Order objects in the list
+					// Order list's objects
 					merchandises = merchandises.OrderBy(x => x.StoreID).ThenBy(x => x.MercID.Length).ThenBy(x => x.MercID).ToList();
 
 					// Write a XML file with the ordered list
-					string fileBodyName = appSettings.Get("responseBodyName");
+					string responseFileBodyTag = appSettings.Get("responseXMLFileBodyTag");
 					string responseFileName = appSettings.Get("responseXMLFileName");
 					string responseFilePath = appSettings.Get("responseXMLFilePath");
-					FileWriter.WriteFromList(merchandises, searchedProperties, fileBodyName, responseFileName, responseFilePath);
+					FileWriter.WriteFromList(merchandises, searchedAttributes, responseFileBodyTag, responseFileName, responseFilePath);
 
 					Console.WriteLine("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 					Console.WriteLine("Retorno da requisição concluída");
@@ -106,8 +109,8 @@ namespace ZanthusXMLConverter {
 					Console.WriteLine("Qtd. de Mercadorias: " + merchandises.GroupBy(x => x.MercID).Count());
 				} catch (Exception ex) {
 					Console.WriteLine("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-					Console.WriteLine("Erro na requisição");
-					Console.WriteLine("\nException:");
+					Console.WriteLine("Falha na requisição");
+					Console.WriteLine("\nERRO");
 					Console.WriteLine(ex.ToString());
 				}
 

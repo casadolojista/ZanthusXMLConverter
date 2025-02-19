@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace ZanthusXMLConverter {
 	class FileWriter {
-		#region XDOCUMENT
+		#region XDocument
 		// Write a XML file from a XDocument content
 		public static void WriteFromXDocument(XDocument xDoc, string fileName, string saveLocation) {
 			using (XmlWriter xmlWri = XmlWriter.Create(saveLocation + fileName)) {
@@ -42,37 +42,37 @@ namespace ZanthusXMLConverter {
 		}
 		#endregion
 
-		#region OBJECT LIST
+		#region Object List
 		// Write the content of an object list on a XML file
-		public static void WriteFromList<T>(List<T> list, List<PropertyInfo> searchedProperties, string bodyName, string fileName, string saveLocation) {
-			using (XmlWriter xmlWri = XmlWriter.Create(saveLocation + fileName)) {
+		public static void WriteFromList<T>(List<T> list, List<PropertyInfo> searchedAttributes, string bodyTag, string fileName, string filePath) {
+			using (XmlWriter xmlWri = XmlWriter.Create(filePath + fileName)) {
 				xmlWri.WriteStartDocument();
-				xmlWri.WriteStartElement(bodyName);
+				xmlWri.WriteStartElement(bodyTag);
 
 				// Write every item of XML body content
 				foreach (T item in list) {
 					string formattedItemName = CreateXMLName(item.GetType().Name);
 					xmlWri.WriteStartElement(formattedItemName);
 
-					// Write every searched property of current item
-					foreach (PropertyInfo property in searchedProperties) {
-						string formattedPropertyName = CreateXMLName(property.Name);
-						var propertyValue = property.GetValue(item);
-						string formattedPropertyValue;
+					// Write every searched attribute of current item
+					foreach (PropertyInfo attribute in searchedAttributes) {
+						string formattedAttribute = CreateXMLName(attribute.Name);
+						var attributeValue = attribute.GetValue(item);
+						string formattedAttributeValue;
 
-						if (property.PropertyType == typeof(string)) {
-							formattedPropertyValue = (propertyValue != null) ? propertyValue.ToString() : "";
-						} else if (property.PropertyType == typeof(int)) {
-							formattedPropertyValue = (propertyValue != null) ? propertyValue.ToString() : "0";
+						if (attribute.PropertyType == typeof(string)) {
+							formattedAttributeValue = (attributeValue != null) ? attributeValue.ToString() : "";
+						} else if (attribute.PropertyType == typeof(int)) {
+							formattedAttributeValue = (attributeValue != null) ? attributeValue.ToString() : "0";
 						} else {
-							if ((propertyValue != null) && (propertyValue.ToString() != "0")) {
-								formattedPropertyValue = float.Parse(propertyValue.ToString(), CultureInfo.InvariantCulture).ToString("0.00");
+							if ((attributeValue != null) && (attributeValue.ToString() != "0")) {
+								formattedAttributeValue = float.Parse(attributeValue.ToString(), CultureInfo.InvariantCulture).ToString("0.00");
 							} else {
-								formattedPropertyValue = float.Parse("0", CultureInfo.InvariantCulture).ToString("0.00");
+								formattedAttributeValue = float.Parse("0", CultureInfo.InvariantCulture).ToString("0.00");
 							}
 						}
 
-						xmlWri.WriteElementString(formattedPropertyName, formattedPropertyValue);
+						xmlWri.WriteElementString(formattedAttribute, formattedAttributeValue);
 					}
 
 					xmlWri.WriteEndElement();

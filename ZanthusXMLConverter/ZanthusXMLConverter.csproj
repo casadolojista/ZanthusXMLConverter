@@ -64,7 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileWriter.cs" />
-    <Compile Include="RequestMerchandise.cs" />
+    <Compile Include="MerchandiseRequests.cs" />
     <Compile Include="Merchandise.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

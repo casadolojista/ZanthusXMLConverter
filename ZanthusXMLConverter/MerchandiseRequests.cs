@@ -14,7 +14,7 @@ namespace ZanthusXMLConverter {
 		// Send a POST request to search for merchandises
 		public static async void SearchMerchandises(string requestEndpoint, string requestXMLContentPath) {
 			var appSettings = ConfigurationManager.AppSettings;
-			
+
 			// List with objects (and selected attributes) to be used as content in response's XML file
 			List<Merchandise> merchandises = new List<Merchandise>();
 			PropertyInfo[] merchandiseAttributes = {
@@ -100,7 +100,7 @@ namespace ZanthusXMLConverter {
 					string responseFileBodyTag = appSettings.Get("responseXMLFileBodyTag");
 					string responseFileName = appSettings.Get("responseXMLFileName");
 					string responseFilePath = appSettings.Get("responseXMLFilePath");
-					FileWriter.WriteFromList(merchandises, searchedAttributes, responseFileBodyTag, responseFileName, responseFilePath);
+					FileWriter.WriteXMLFromList(merchandises, searchedAttributes, responseFileBodyTag, responseFileName, responseFilePath);
 
 					Console.WriteLine("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 					Console.WriteLine("Retorno da requisição concluída");

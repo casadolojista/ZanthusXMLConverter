@@ -97,7 +97,7 @@ namespace ZanthusXMLConverter {
 					merchandises = merchandises.OrderBy(x => x.StoreID).ThenBy(x => x.MercID.Length).ThenBy(x => x.MercID).ToList();
 
 					// Write a XML file with the ordered list
-					string responseFileBodyTag = appSettings.Get("responseXMLFileBodyTag");
+					string responseFileBodyTag = appSettings.Get("MerchandiseFileBodyTag");
 					string responseFileName = appSettings.Get("responseXMLFileName");
 					string responseFilePath = appSettings.Get("responseXMLFilePath");
 					FileWriter.WriteXMLFromList(merchandises, searchedAttributes, responseFileBodyTag, responseFileName, responseFilePath);

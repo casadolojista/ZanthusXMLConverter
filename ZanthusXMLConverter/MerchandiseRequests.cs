@@ -58,19 +58,19 @@ namespace ZanthusXMLConverter {
 					foreach (XElement query in responseXDocBody.Element(appSettings.Get("responseBodyTag")).Descendants("QUERY")) {
 						foreach (XElement entry in query.Descendants("CONTENT")) {
 							if (entry.HasElements) {
-								int storeID = int.Parse(entry.Element("COD_LOJA").Value);
-								string mercID = entry.Element("COD_MERCADORIA").Value.Trim('0');
-								string description = Regex.Replace(entry.Element("DESCRICAO").Value, " +", " ");
-								int pisTaxStatus = int.Parse(entry.Element("COD_SIT_TRIB_PIS").Value);
-								double pisAliquot = double.Parse(entry.Element("ALIQUOTA_PIS").Value, CultureInfo.InvariantCulture);
-								float pisSubstPerc = float.Parse(entry.Element("PERC_SUBST_PIS").Value, CultureInfo.InvariantCulture);
-								float pisReducPerc = float.Parse(entry.Element("PERC_REDUZ_B_CALCULO_PIS").Value, CultureInfo.InvariantCulture);
-								int cofinsTaxStatus = int.Parse(entry.Element("COD_SIT_TRIB_COFINS").Value);
-								double cofinsAliquot = double.Parse(entry.Element("ALIQUOTA_COFINS").Value, CultureInfo.InvariantCulture);
-								float cofinsSubstPerc = float.Parse(entry.Element("PERC_SUBST_COFINS").Value, CultureInfo.InvariantCulture);
-								float cofinsReducPerc = float.Parse(entry.Element("PERC_REDUZ_B_CALCULO_COFINS").Value, CultureInfo.InvariantCulture);
-								double accountingCost = double.Parse(entry.Element("CUSTO_CONTABIL").Value, CultureInfo.InvariantCulture);
-								int inactiveFlag = int.Parse(entry.Element("FLGINATIVO").Value);
+								int storeID = int.Parse(entry.Element(appSettings.Get("storeID")).Value);
+								string mercID = entry.Element(appSettings.Get("mercID")).Value.Trim('0');
+								string description = Regex.Replace(entry.Element(appSettings.Get("description")).Value, " +", " ");
+								int pisTaxStatus = int.Parse(entry.Element(appSettings.Get("pisTaxStatus")).Value);
+								double pisAliquot = double.Parse(entry.Element(appSettings.Get("pisAliquot")).Value, CultureInfo.InvariantCulture);
+								float pisSubstPerc = float.Parse(entry.Element(appSettings.Get("pisSubstPerc")).Value, CultureInfo.InvariantCulture);
+								float pisReducPerc = float.Parse(entry.Element(appSettings.Get("pisReducPerc")).Value, CultureInfo.InvariantCulture);
+								int cofinsTaxStatus = int.Parse(entry.Element(appSettings.Get("cofinsTaxStatus")).Value);
+								double cofinsAliquot = double.Parse(entry.Element(appSettings.Get("cofinsAliquot")).Value, CultureInfo.InvariantCulture);
+								float cofinsSubstPerc = float.Parse(entry.Element(appSettings.Get("cofinsSubstPerc")).Value, CultureInfo.InvariantCulture);
+								float cofinsReducPerc = float.Parse(entry.Element(appSettings.Get("cofinsReducPerc")).Value, CultureInfo.InvariantCulture);
+								double accountingCost = double.Parse(entry.Element(appSettings.Get("accountingCost")).Value, CultureInfo.InvariantCulture);
+								int inactiveFlag = int.Parse(entry.Element(appSettings.Get("inactiveFlag")).Value);
 
 								if (!merchandises.Exists(x => x.StoreID == storeID) ||
 									!merchandises.Exists(x => x.MercID == mercID)) {

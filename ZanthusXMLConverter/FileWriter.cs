@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Configuration;
 using System.Globalization;
 using System.Xml;
 using System.Xml.Linq;
@@ -45,18 +46,20 @@ namespace ZanthusXMLConverter {
 		#region Write XML file from object list
 		// Write a XML file from the content of an object list
 		public static void WriteXMLFromList<T>(List<T> list, List<PropertyInfo> searchedAttributes, string bodyTag, string fileName, string filePath) {
+			var appSettings = ConfigurationManager.AppSettings;
+
 			using (XmlWriter xmlWri = XmlWriter.Create(filePath + fileName)) {
 				xmlWri.WriteStartDocument();
 				xmlWri.WriteStartElement(bodyTag);
 
 				// Write every item of XML body content
 				foreach (T item in list) {
-					string formattedItemName = CreateXMLItemName(item.GetType().Name);
+					string formattedItemName = CreateXMLItemName(appSettings.Get(item.GetType().Name));
 					xmlWri.WriteStartElement(formattedItemName);
 
 					// Write every searched attribute of current item
 					foreach (PropertyInfo attribute in searchedAttributes) {
-						string formattedAttribute = CreateXMLItemName(attribute.Name);
+						string formattedAttribute = CreateXMLItemName(appSettings.Get(attribute.Name));
 						var attributeValue = attribute.GetValue(item);
 						string formattedAttributeValue;
 

@@ -19,13 +19,32 @@ namespace ZanthusXMLConverter {
 					case ConsoleKey.Y:
 						Console.WriteLine("\n\n----------------------------------------");
 						Console.WriteLine("Enviando requisição...");
-						MerchandiseRequests.SearchMerchandises(
-							(appSettings.Get("requestEndpoint") + appSettings.Get("requestMethod")),
-							(appSettings.Get("requestFilePath") + appSettings.Get("requestFileName"))
-						);
+						MerchandiseRequests.SearchMerchandises(appSettings.Get("RequestEndpoint") + appSettings.Get("RequestMethod"), getRequestFilePath(typeof(Merchandise).Name));
 						break;
 				}
 			} while (pressedKey.Key != ConsoleKey.Escape);
+		}
+
+		// Get the request file's path of current object class
+		public static string getRequestFilePath(string className) {
+			var appSettings = ConfigurationManager.AppSettings;
+
+			string requestFilePath = appSettings.Get("RequestFilePath");
+			string requestFileFolder = appSettings.Get(className + "FileFolder");
+			string requestFileName = appSettings.Get(className + "RequestFileName");
+
+			return requestFilePath + requestFileFolder + requestFileName;
+		}
+
+		// Get path to write the a response file
+		public static string getResponseFilePath(string className) {
+			var appSettings = ConfigurationManager.AppSettings;
+
+			string requestFilePath = appSettings.Get("ResponseFilePath");
+			string requestFileFolder = appSettings.Get(className + "FileFolder");
+			string requestFileName = appSettings.Get(className + "ResponseFileName");
+
+			return requestFilePath + requestFileFolder + requestFileName;
 		}
 	}
 }

@@ -13,6 +13,7 @@ namespace ZanthusXMLConverter {
 	class MerchandiseRequests {
 		// Send a POST request to search for merchandises
 		public static async void SearchMerchandises(string requestEndpoint, string requestXMLContentPath) {
+			// Get settings for the current request
 			var appSettings = ConfigurationManager.AppSettings;
 
 			// List with objects (and selected attributes) to be used as content in response's XML file
@@ -55,7 +56,7 @@ namespace ZanthusXMLConverter {
 					XDocument responseXDocBody = XDocument.Parse(responseBody);
 
 					// Parse new XDocument's body content as objects
-					foreach (XElement query in responseXDocBody.Element(appSettings.Get("responseBodyTag")).Descendants("QUERY")) {
+					foreach (XElement query in responseXDocBody.Element(appSettings.Get("FileBodyTag")).Descendants("QUERY")) {
 						foreach (XElement entry in query.Descendants("CONTENT")) {
 							if (entry.HasElements) {
 								int storeID = int.Parse(entry.Element(appSettings.Get("storeID")).Value);
@@ -93,14 +94,9 @@ namespace ZanthusXMLConverter {
 						}
 					}
 
-					// Order list's objects
+					// Order list's objects and write the content into a XML file
 					merchandises = merchandises.OrderBy(x => x.StoreID).ThenBy(x => x.MercID.Length).ThenBy(x => x.MercID).ToList();
-
-					// Write a XML file with the ordered list
-					string responseFileBodyTag = appSettings.Get("MerchandiseFileBodyTag");
-					string responseFileName = appSettings.Get("responseXMLFileName");
-					string responseFilePath = appSettings.Get("responseXMLFilePath");
-					FileWriter.WriteXMLFromList(merchandises, searchedAttributes, responseFileBodyTag, responseFileName, responseFilePath);
+					FileWriter.WriteXMLFromList(merchandises, searchedAttributes);
 
 					Console.WriteLine("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 					Console.WriteLine("Retorno da requisição concluída");

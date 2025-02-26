@@ -45,17 +45,22 @@ namespace ZanthusXMLConverter {
 
 		#region Write XML file from object list
 		// Write a XML file from the content of an object list
-		public static void WriteXMLFromList<T>(List<T> list, List<PropertyInfo> searchedAttributes, string bodyTag, string fileName, string filePath) {
+		public static void WriteXMLFromList<T>(List<T> list, List<PropertyInfo> searchedAttributes) {
 			var appSettings = ConfigurationManager.AppSettings;
+			string responseFileBodyTag = appSettings.Get(typeof(Merchandise).Name + "FileBodyTag");
+			string responseFileItemTag = appSettings.Get(typeof(Merchandise).Name + "FileItemTag");
 
-			using (XmlWriter xmlWri = XmlWriter.Create(filePath + fileName)) {
+			using (XmlWriter xmlWri = XmlWriter.Create(Program.getResponseFilePath(typeof(Merchandise).Name))) {
 				xmlWri.WriteStartDocument();
-				xmlWri.WriteStartElement(bodyTag);
+				xmlWri.WriteStartElement(responseFileBodyTag);
+
+				// Data Schema
+				xmlWri.WriteAttributeString("xmlns", "xsi", null, @"http://www.w3.org/2001/XMLSchema-instance");
+				xmlWri.WriteAttributeString("xsi", "noNamespaceSchemaLocation", null, appSettings.Get("MerchandiseFileDataSchema")); ;
 
 				// Write every item of XML body content
 				foreach (T item in list) {
-					string formattedItemName = CreateXMLItemName(appSettings.Get(item.GetType().Name));
-					xmlWri.WriteStartElement(formattedItemName);
+					xmlWri.WriteStartElement(responseFileItemTag);
 
 					// Write every searched attribute of current item
 					foreach (PropertyInfo attribute in searchedAttributes) {

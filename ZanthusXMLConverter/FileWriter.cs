@@ -50,7 +50,7 @@ namespace ZanthusXMLConverter {
 			string responseFileBodyTag = appSettings.Get(typeof(Merchandise).Name + "FileBodyTag");
 			string responseFileItemTag = appSettings.Get(typeof(Merchandise).Name + "FileItemTag");
 
-			using (XmlWriter xmlWri = XmlWriter.Create(Program.getResponseFilePath(typeof(Merchandise).Name))) {
+			using (XmlWriter xmlWri = XmlWriter.Create(Program.GetResponseFilePath(typeof(Merchandise).Name))) {
 				xmlWri.WriteStartDocument();
 				xmlWri.WriteStartElement(responseFileBodyTag);
 

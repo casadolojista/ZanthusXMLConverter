@@ -71,13 +71,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Responses\Merchandise\merc_format.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="Requests\Merchandise\merc_search_request.xml" />
+    <Folder Include="Files\Data Schemas\Merchandise\" />
+    <Folder Include="Files\Responses\Merchandise\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Files\Requests\Merchandise\merc_search_request.xml" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

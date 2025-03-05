@@ -7,9 +7,12 @@ namespace ZanthusXMLConverter {
 			var appSettings = ConfigurationManager.AppSettings;
 			ConsoleKeyInfo pressedKey;
 
+			Console.WriteLine("CONSOLE APPLICATION INICIADA");
+			Console.WriteLine("\n########################################");
 			Console.WriteLine(" - Pressione [Y] para enviar uma requisição");
 			Console.WriteLine(" - Pressione [Esc] para sair");
 
+			// Read current pressed key to call requisitions
 			do {
 				pressedKey = Console.ReadKey();
 
@@ -17,34 +20,20 @@ namespace ZanthusXMLConverter {
 					default:
 						break;
 					case ConsoleKey.Y:
-						Console.WriteLine("\n\n----------------------------------------");
+						Console.WriteLine("\n----------------------------------------");
 						Console.WriteLine("Enviando requisição...");
-						MerchandiseRequests.SearchMerchandises(appSettings.Get("RequestEndpoint") + appSettings.Get("RequestMethod"), GetRequestFilePath(typeof(Merchandise).Name));
+						MerchandiseRequests.SearchMerchandises(
+							appSettings.Get("RequestEndpoint") + appSettings.Get("RequestMethod"),
+							FileWriter.GetRequestFilePath(typeof(Merchandise), "Search")
+						);
 						break;
+					//case ConsoleKey.M:
+					//	Console.WriteLine("\n\n----------------------------------------");
+					//	Console.WriteLine("Método de requisição está em desenvolvimento");
+					//	break;
 				}
 			} while (pressedKey.Key != ConsoleKey.Escape);
 		}
 
-		// Get the request file's path of current object class
-		public static string GetRequestFilePath(string className) {
-			var appSettings = ConfigurationManager.AppSettings;
-
-			string requestFilePath = appSettings.Get("RequestFilePath");
-			string requestFileFolder = appSettings.Get(className + "FileFolder");
-			string requestFileName = appSettings.Get(className + "RequestFileName");
-
-			return requestFilePath + requestFileFolder + requestFileName;
-		}
-
-		// Get path to write the a response file
-		public static string GetResponseFilePath(string className) {
-			var appSettings = ConfigurationManager.AppSettings;
-
-			string requestFilePath = appSettings.Get("ResponseFilePath");
-			string requestFileFolder = appSettings.Get(className + "FileFolder");
-			string requestFileName = appSettings.Get(className + "ResponseFileName");
-
-			return requestFilePath + requestFileFolder + requestFileName;
-		}
 	}
 }

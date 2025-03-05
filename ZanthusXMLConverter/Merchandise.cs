@@ -2,6 +2,7 @@
 
 namespace ZanthusXMLConverter {
 	public class Merchandise {
+		#region Properties
 		#region PRODUCT
 		public int StoreID { get; set; }
 		public string MercID { get; set; }
@@ -44,6 +45,8 @@ namespace ZanthusXMLConverter {
 		public int CEST { get; set; }
 		public int CFOP { get; set; }
 		#endregion
+		#endregion
+
 		public int InactiveFlag { get; set; }
 
 		public Merchandise() {

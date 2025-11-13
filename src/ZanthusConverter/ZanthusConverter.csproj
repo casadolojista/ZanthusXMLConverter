@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AF5CDCB2-3456-4325-A82E-FFE84B5659F2}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ZanthusXMLConverter</RootNamespace>
-    <AssemblyName>ZanthusXMLConverter</AssemblyName>
+    <RootNamespace>ZanthusConverter</RootNamespace>
+    <AssemblyName>ZanthusConverter</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -48,36 +48,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>ZanthusXMLConverter.Program</StartupObject>
+    <StartupObject>ZanthusConverter.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
+	<Reference Include="System" />
+    <Reference Include="System.Core" />
+	<Reference Include="System.Data" />
+	<Reference Include="System.Data.DataSetExtensions" />
+	<Reference Include="System.Configuration" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileWriter.cs" />
-    <Compile Include="MercadoriaRequests.cs" />
     <Compile Include="Mercadoria.cs" />
+	<Compile Include="MercadoriaRequests.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Files\Data Schemas\Merchandise\" />
-    <Folder Include="Files\Responses\Merchandise\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Files\Requests\Merchandise\merc_search_request.xml" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

@@ -1,4 +1,6 @@
-﻿namespace ZanthusXMLConverter
+﻿using System;
+
+namespace ZanthusConverter
 {
 	public class Mercadoria
 	{

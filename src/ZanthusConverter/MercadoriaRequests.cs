@@ -5,8 +5,6 @@ using System.Text.RegularExpressions;
 using System.Configuration;
 using System.Globalization;
 using System.Net.Http;
-using System.Xml;
-using System.Xml.Linq;
 using System.Reflection;
 
 namespace ZanthusXMLConverter

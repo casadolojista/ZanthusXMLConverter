@@ -13,15 +13,12 @@ namespace ZanthusXMLConverter {
 	class FileWriter {
 		#region Tuples sufixes
 		// Strings to build a tuple's key (to be used in searchings at appSettings's App.config)
-		const string FileFolderSufix = "FileFolder"; // Sufix to point out a folder containing the requests and responses files of an object class
+		const string FileFolderSufix = "FileFolder"; // Sufix to point out folder containing the data schemas, requests and responses files of an object class
 		const string FileBodyTagSufix = "FileBodyTag"; // Tag to mark all XML file's content (setted at file's beginning) of an object class
 		const string FileItemTagSufix = "FileItemTag"; // Tag to mark items of a XML file (setted inside of body tag) of an object class
-		const string FileDataSchemaPathSufix = "FileDataSchemaPath"; // Sufix to point out the data schema of a XML file
-		const string FileDataSchemaNameSufix = "FileDataSchemaName"; // Sufix to point out the data schema of a XML file
-		const string RequestFilePathSufix = "RequestFilePath"; // Sufix to point out the request files path of an object class
-		const string RequestFileNameSufix = "RequestFileName"; // Sufix to point out the request files path of an object class
-		const string ResponseFilePathSufix = "ResponseFilePath"; // Sufix to point out the response files names of an object class
-		const string ResponseFileNameSufix = "ResponseFileName"; // Sufix to point out the response files names of an object class
+		const string FileDataSchemaNameSufix = "FileDataSchemaName"; // Sufix to point out a XML file's data schema
+		const string RequestFileNameSufix = "RequestFileName"; // Sufix to point out a request file
+		const string ResponseFileNameSufix = "ResponseFileName"; // Sufix to point out a response file
 		#endregion
 
 		// Create a formatted name for a XML item (all caps and divided by underlines)
@@ -30,10 +27,20 @@ namespace ZanthusXMLConverter {
 		}
 
 		#region Get file paths
-		// Get current request file's path of an object class
+		// Get current data schema's path of a XML file
+		public static string GetFileDataSchemaPath(Type objectClass, string requestName) {
+			var appSettings = ConfigurationManager.AppSettings;
+			string fileDataSchemaPath = appSettings.Get("FileDataSchemaPath");
+			string fileDataSchemaFolder = appSettings.Get(objectClass.Name + FileFolderSufix);
+			string fileDataSchemaName = appSettings.Get(objectClass.Name + requestName + FileDataSchemaNameSufix);
+
+			return fileDataSchemaPath + fileDataSchemaFolder + fileDataSchemaName;
+		}
+
+		// Get current request file's path of a class
 		public static string GetRequestFilePath(Type objectClass, string requestName) {
 			var appSettings = ConfigurationManager.AppSettings;
-			string requestFilePath = appSettings.Get(RequestFilePathSufix);
+			string requestFilePath = appSettings.Get("RequestFilePath");
 			string requestFileFolder = appSettings.Get(objectClass.Name + FileFolderSufix);
 			string requestFileName = appSettings.Get(objectClass.Name + requestName + RequestFileNameSufix);
 
@@ -43,28 +50,22 @@ namespace ZanthusXMLConverter {
 		// Get current response file's path of a class
 		public static string GetResponseFilePath(Type objectClass, string requestName) {
 			var appSettings = ConfigurationManager.AppSettings;
-			string responseFilePath = appSettings.Get(ResponseFilePathSufix);
+			string responseFilePath = appSettings.Get("ResponseFilePath");
 			string responseFileFolder = appSettings.Get(objectClass.Name + FileFolderSufix);
 			string responseFileName = appSettings.Get(objectClass.Name + requestName + ResponseFileNameSufix);
 
 			return responseFilePath + responseFileFolder + responseFileName;
 		}
-
-		// Get current file data schema's path of a class
-		public static string GetFileDataSchemaPath(Type objectClass, string requestName) {
-			var appSettings = ConfigurationManager.AppSettings;
-			string fileDataSchemaPath = appSettings.Get(FileDataSchemaPathSufix);
-			string fileDataSchemaFolder = appSettings.Get(objectClass.Name + FileFolderSufix);
-			string fileDataSchemaName = appSettings.Get(objectClass.Name + requestName + FileDataSchemaNameSufix);
-
-			return fileDataSchemaPath + fileDataSchemaFolder + fileDataSchemaName;
-		}
 		#endregion
 
 		#region Write XML file from XDocument
 		// Write a XML file from a XDocument content
-		public static void WriteXMLFromXDocument(XDocument xDoc, string filePath, string fileName) {
-			using (XmlWriter xmlWri = XmlWriter.Create(filePath + fileName)) {
+		public static void WriteXMLFromXDocument(XDocument xDoc, Type objectClass, string requestName) {
+			// Get application settings from configuration (related to the current list's object class)
+			string responseFilePath = GetResponseFilePath(objectClass, requestName);
+
+			// Write a XML file using the content of a XDocument
+			using (XmlWriter xmlWri = XmlWriter.Create(responseFilePath)) {
 				xmlWri.WriteStartDocument();
 				WriteXElement(xmlWri, xDoc.Elements().Single());
 				xmlWri.WriteEndDocument();
@@ -130,11 +131,9 @@ namespace ZanthusXMLConverter {
 							formattedAttributeValue = (attributeValue != null) ? attributeValue.ToString() : "0";
 						} else {
 							if ((attributeValue != null) && (attributeValue.ToString() != "0")) {
-								//formattedAttributeValue = float.Parse(attributeValue.ToString(), CultureInfo.InvariantCulture).ToString("0.00");
-								formattedAttributeValue = float.Parse(attributeValue.ToString(), NumberStyles.Float).ToString("0.00");
+								formattedAttributeValue = float.Parse(attributeValue.ToString()).ToString("0.00");
 							} else {
-								//formattedAttributeValue = float.Parse("0", CultureInfo.InvariantCulture).ToString("0.00");
-								formattedAttributeValue = float.Parse("0", NumberStyles.Float).ToString("0.00");
+								formattedAttributeValue = float.Parse("0").ToString("0.00");
 							}
 						}
 
@@ -166,6 +165,7 @@ namespace ZanthusXMLConverter {
 			// Write a data schema for XML file's of an object class
 			using (XmlWriter xmlWri = XmlWriter.Create(fileDataSchemaPath)) {
 				XmlSchema xsdSchema = new XmlSchema();
+				//xsdSchema.TargetNamespace = "http://www.w3.org/2001/XMLSchema";
 
 				// Set rules for XML's body content
 				XmlSchemaElement xsdBody = new XmlSchemaElement();
@@ -175,6 +175,9 @@ namespace ZanthusXMLConverter {
 				xsdBody.SchemaType = xsdBodyType;
 				xsdBodyType.Particle = xsdBodyTypeSequence;
 				xsdSchema.Items.Add(xsdBody);
+
+				// Set rules for item contents
+				XmlSchemaSimpleTypeRestriction xsdRestricition = new XmlSchemaSimpleTypeRestriction();
 
 				// Set rules for XML's items
 				XmlSchemaElement xsdItem = new XmlSchemaElement();
@@ -197,7 +200,7 @@ namespace ZanthusXMLConverter {
 					} else if (attribute.PropertyType == typeof(int)) {
 						xsdAttribute.SchemaTypeName = new XmlQualifiedName("integer", "http://www.w3.org/2001/XMLSchema");
 					} else {
-						xsdAttribute.SchemaTypeName = new XmlQualifiedName("decimal", "http://www.w3.org/2001/XMLSchema");
+						xsdAttribute.SchemaTypeName = new XmlQualifiedName("float", "http://www.w3.org/2001/XMLSchema");
 					}
 
 					xsdItemTypeSequence.Items.Add(xsdAttribute);
